@@ -1,7 +1,26 @@
-import React from 'react';
+import { signOut } from 'firebase/auth';
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import FirebaseContext from '../context/firebase';
 
 function Home() {
-	return <h1 className="text-3xl font-bold underline">Home</h1>;
+	const navigate = useNavigate();
+	const { auth } = useContext(FirebaseContext);
+
+	const handleClick = async () => {
+		try {
+			await signOut(auth);
+			navigate('/login');
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+
+	return (
+		<div>
+			<button onClick={handleClick}>Signout</button>
+		</div>
+	);
 }
 
 export default Home;

@@ -1,12 +1,12 @@
 import React from 'react';
 import { describe, expect, vi } from 'vitest';
+import { onAuthStateChanged } from 'firebase/auth';
 import { renderHook } from '@testing-library/react-hooks';
+
 import useAuthListener, { FirebaseContextProvider } from '../useAuthListener';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 // Mock firebase functions
 vi.mock('firebase/auth', () => ({
-	getAuth: vi.fn(() => Promise.resolve(true)),
 	onAuthStateChanged: vi.fn(() => () => Promise.resolve(true)),
 }));
 
@@ -27,7 +27,6 @@ describe('useAuthListener', () => {
 		waitForNextUpdate();
 
 		// Assert
-		expect(getAuth).toHaveBeenCalledTimes(1);
 		expect(onAuthStateChanged).toHaveBeenCalledTimes(1);
 	});
 });

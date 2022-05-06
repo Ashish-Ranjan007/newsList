@@ -1,114 +1,98 @@
-import React, { useContext, useState } from 'react';
+import * as Yup from 'yup';
+import { Form, Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useContext, useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
+import FormControl from '../../FormControl';
 import * as ROUTES from '../../../constants/routes';
 import FirebaseContext from '../../../context/firebase';
+import TextError from '../../FormControl/TextError';
 
 const LoginForm = () => {
 	const navigate = useNavigate();
-	const { firebase } = useContext(FirebaseContext);
-	const auth = getAuth(firebase);
+	const { auth } = useContext(FirebaseContext);
+	const [loginError, setLoginError] = useState(false);
 
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [emailError, setEmailError] = useState('');
-	const [loginError, setLoginError] = useState('');
-	const [passwordError, setPasswordError] = useState('');
-
-	const validate = (string, type) => {
-		if (type === 'email' && string === '') {
-			setEmailError('Required!');
-		} else if (
-			type === 'email' &&
-			!new RegExp('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$').test(string)
-		) {
-			setEmailError('Not a valid Email');
-		} else {
-			setEmailError('');
-		}
-
-		if (type === 'password' && string.length === 0) {
-			setPasswordError('Required!');
-		} else if (type === 'password' && string.length < 8) {
-			setPasswordError('Password must be atleast 8 characters long');
-		} else {
-			setPasswordError('');
-		}
-
-		setLoginError('');
+	const initialValues = {
+		email: '',
+		password: '',
 	};
 
-	const handleLogin = async () => {
+	const validationSchema = Yup.object({
+		email: Yup.string().email('Invalid Email Format').required('Required!'),
+		password: Yup.string()
+			.min(8, 'Password must have atleast 8 characters')
+			.required('Required!'),
+	});
+
+	const onSubmit = async (values, onSubmitProps) => {
 		try {
-			await signInWithEmailAndPassword(auth, email, password);
+			await signInWithEmailAndPassword(
+				auth,
+				values.email,
+				values.password
+			);
 			navigate(ROUTES.HOME, { replace: true });
 		} catch (error) {
-			setEmail('');
-			setPassword('');
-			setLoginError('Invalid Email or Password');
+			setLoginError(true);
+			setTimeout(() => {
+				setLoginError(false);
+			}, 10000);
+			onSubmitProps.setSubmitting(false);
 		}
 	};
 
 	return (
-		<div className="font-body text-base text-gray-400 font-medium tracking-wide flex flex-col justify-around w-full lg:w-11/12 xl:w-4/5">
-			<form role="form">
-				<div className=" mb-4">
-					<label htmlFor="username">Email</label>
-					<input
-						className="p-2 rounded-lg border-2 border-gray-400 w-full text-xs"
-						type="text"
-						name="username"
-						id="username"
-						placeholder="Email"
-						required
-						aria-required="true"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						onBlur={() => validate(email, 'email')}
-					/>
-					<p className="text-xs text-red-600 font-normal">
-						{emailError !== '' && emailError}
-					</p>
-				</div>
-				<div>
-					<label htmlFor="password">Password</label>
-					<input
-						className="p-2 rounded-lg border-2 border-gray-400 w-full text-xs"
-						type="password"
-						name="username"
-						id="password"
-						placeholder="Password"
-						required
-						aria-required="true"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						onBlur={() => validate(password, 'password')}
-					/>
-					<p className="text-xs text-red-600 font-normal">
-						{passwordError !== '' && passwordError}
-					</p>
-					<p className="text-xs text-red-600 font-normal">
-						{loginError !== '' && loginError}
-					</p>
-				</div>
-			</form>
-			<p role="link" className="text-right text-sky-blue my-2">
-				Forgot Password
-			</p>
-			<button
-				type="submit"
-				className="w-full bg-sky-blue text-white text-xl font-semibold p-2 rounded-lg"
-				onClick={handleLogin}
+		<div className="font-body text-base text-gray-400 font-medium tracking-wide flex flex-col justify-around lg:w-3/4">
+			<Formik
+				initialValues={initialValues}
+				validationSchema={validationSchema}
+				onSubmit={onSubmit}
+				validateOnMount
 			>
-				Log In
-			</button>
-			<p className="my-2 text-center">
+				{(formik) => {
+					return (
+						<Form className="mb-2 text-xs" role="form">
+							<FormControl
+								control="input"
+								type="email"
+								name="email"
+								label="Email"
+							/>
+							<FormControl
+								control="input"
+								type="password"
+								name="password"
+								label="Password"
+							/>
+							<button
+								type="submit"
+								disabled={
+									!formik.isValid || formik.isSubmitting
+								}
+								className={`w-full bg-sky-blue text-white text-sm font-semibold p-2 rounded-lg ${
+									!formik.isValid || formik.isSubmitting
+										? 'select-none opacity-50'
+										: ''
+								}`}
+							>
+								Submit
+							</button>
+						</Form>
+					);
+				}}
+			</Formik>
+
+			{loginError && <TextError>*Invalid Email or Password</TextError>}
+
+			<p className="my-2 text-center text-xs">
 				Don't have an account ?
 				<span
 					role="link"
 					aria-label="Signup if you don't already have an account"
-					className="text-sky-blue text-lg cursor-pointer ml-1"
+					className={`text-sky-blue cursor-pointer ml-1 text-sm`}
+					onClick={() => navigate(ROUTES.SIGNUP)}
 				>
 					Sign Up
 				</span>
