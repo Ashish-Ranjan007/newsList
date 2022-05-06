@@ -17,8 +17,7 @@ export const FirebaseContextProvider = ({ firebase, children }) => (
  * Unsubscribe from onAuthStateChanged listener when the component unmounts
  */
 function useAuthListener() {
-	const { firebase } = useContext(FirebaseContext);
-	const auth = getAuth(firebase);
+	const { auth } = useContext(FirebaseContext);
 	const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
 	useEffect(() => {
