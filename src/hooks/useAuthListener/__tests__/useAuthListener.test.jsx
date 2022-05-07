@@ -1,7 +1,7 @@
 import React from 'react';
 import { describe, expect, vi } from 'vitest';
 import { onAuthStateChanged } from 'firebase/auth';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 
 import useAuthListener, { FirebaseContextProvider } from '../useAuthListener';
 
@@ -19,12 +19,9 @@ describe('useAuthListener', () => {
 				{children}
 			</FirebaseContextProvider>
 		);
-
-		const { waitForNextUpdate } = renderHook(() => useAuthListener(), {
+		const { result } = renderHook(() => useAuthListener(), {
 			wrapper,
 		});
-
-		waitForNextUpdate();
 
 		// Assert
 		expect(onAuthStateChanged).toHaveBeenCalledTimes(1);
