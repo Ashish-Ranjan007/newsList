@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import React, { useContext, useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -88,14 +88,14 @@ const LoginForm = () => {
 
 			<p className="my-2 text-center text-xs">
 				Don't have an account ?
-				<span
+				<Link
+					to={ROUTES.SIGNUP}
 					role="link"
 					aria-label="Signup if you don't already have an account"
-					className={`text-sky-blue cursor-pointer ml-1 text-sm`}
-					onClick={() => navigate(ROUTES.SIGNUP)}
+					className="text-sky-blue cursor-pointer ml-1 text-sm"
 				>
 					Sign Up
-				</span>
+				</Link>
 			</p>
 		</div>
 	);

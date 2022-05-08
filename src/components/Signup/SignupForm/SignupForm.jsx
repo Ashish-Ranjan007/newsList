@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import React, { useContext, useState } from 'react';
 import { addDoc, collection } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -61,7 +61,6 @@ const SignupForm = () => {
 					values.email,
 					values.password
 				);
-
 				const colRef = collection(firestore, 'users');
 				await addDoc(colRef, {
 					userId: createdUser.user.uid,
@@ -71,6 +70,7 @@ const SignupForm = () => {
 					lastName: values.lName,
 					followers: [],
 					following: [],
+					interests: [],
 					savedArticles: [],
 					likedArticles: [],
 					likedComments: [],
@@ -79,7 +79,7 @@ const SignupForm = () => {
 					notifications: [],
 					dateCreated: Date.now(),
 				});
-				navigate(ROUTES.HOME);
+				navigate(ROUTES.TOPIC_SELECTION, { replace: true });
 			} catch (error) {
 				setSignUpError(true);
 				setTimeout(() => {
@@ -178,14 +178,14 @@ const SignupForm = () => {
 
 			<p className="my-4 lg:my-2 text-xs">
 				Already have an account ?
-				<span
+				<Link
+					to={ROUTES.LOGIN}
 					role="link"
 					aria-label="Signup if you don't already have an account"
 					className="text-sky-blue cursor-pointer ml-1 text-sm"
-					onClick={() => navigate(ROUTES.LOGIN)}
 				>
-					Login In
-				</span>
+					Log In
+				</Link>
 			</p>
 		</div>
 	);
