@@ -1,18 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import Login from '../Login';
-import FirebaseContext from '../../../../context/firebase';
 import { vi } from 'vitest';
+import { screen } from '@testing-library/react';
 
-const customRender = (ui, { providerProps }) => {
-	return render(
-		<BrowserRouter>
-			<FirebaseContext.Provider value={{ providerProps }}>
-				{ui}
-			</FirebaseContext.Provider>
-		</BrowserRouter>
-	);
-};
+import Login from '../Login';
+import { render } from '../../../../../test-utils';
 
 // Mock firebase functions
 vi.mock('firebase/auth', () => ({
@@ -28,7 +18,7 @@ const firebase = {
 describe('LoginForm', () => {
 	it('should render the component', async () => {
 		// Arrange
-		customRender(<Login />, { firebase });
+		render(<Login />, { firebase });
 		const main = screen.getByRole('main');
 
 		// Assert

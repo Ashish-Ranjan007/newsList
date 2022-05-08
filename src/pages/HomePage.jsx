@@ -15,7 +15,7 @@ function Home() {
 			console.log(error.message);
 		}
 	};
-
+	console.log('at home');
 	return (
 		<div>
 			<button onClick={handleClick}>Signout</button>

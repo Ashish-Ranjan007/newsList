@@ -2,14 +2,15 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import * as ROUTES from './constants/routes';
-import useAuthListener from './hooks/useAuthListener/useAuthListener';
 import IsUserLoggedIn from './helpers/IsUserLoggedIn';
 import ProtectedRoute from './helpers/ProtectedRoute';
+import useAuthListener from './hooks/useAuthListener/useAuthListener';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const TopicSelectionPage = lazy(() => import('./pages/TopicSelectionPage'));
 
 const App = () => {
 	const { user } = useAuthListener();
@@ -18,14 +19,6 @@ const App = () => {
 	return (
 		<Suspense fallback={<p>Loading...</p>}>
 			<Routes>
-				<Route
-					path={ROUTES.HOME}
-					element={
-						<ProtectedRoute user={user}>
-							<HomePage />
-						</ProtectedRoute>
-					}
-				/>
 				<Route
 					path={ROUTES.LOGIN}
 					element={
@@ -40,6 +33,22 @@ const App = () => {
 						<IsUserLoggedIn user={user} loggedInPath={ROUTES.HOME}>
 							<SignupPage />
 						</IsUserLoggedIn>
+					}
+				/>
+				<Route
+					path={ROUTES.TOPIC_SELECTION}
+					element={
+						<ProtectedRoute user={user}>
+							<TopicSelectionPage />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path={ROUTES.HOME}
+					element={
+						<ProtectedRoute user={user}>
+							<HomePage />
+						</ProtectedRoute>
 					}
 				/>
 				<Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />

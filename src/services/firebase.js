@@ -29,3 +29,18 @@ export const doesEmailExists = async (email, firestore) => {
 
 	return result.length > 0 ? true : false;
 };
+
+export const getDocId = async (email, firestore) => {
+	const colRef = collection(firestore, 'users');
+	const q = query(colRef, where('email', '==', email));
+	const querySnapshot = await getDocs(q);
+
+	let result;
+	querySnapshot.docs.forEach((doc) => {
+		if (doc.data().email === email) {
+			result = doc.id;
+		}
+	});
+
+	return result;
+};
