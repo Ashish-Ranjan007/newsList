@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+	width: 100vw;
+	height: 100vh;
+	scroll-behavior: smooth;
+	overflow-x: hidden;
+}
+
+#root {
+	width: 100vw;
+	height: 100vh;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+.custom-scrollbar {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+.sidebar-height {
+	height: calc(100vh - 63px);
+}
+
+.icon {
+	width: 24px;
+	height: 24px;
+}
+
+@media (max-width: 1100px) {
+	.flex-one {
+		flex: 5;
+	}
+	.flex-two {
+		flex: 6;
+	}
+}
+@media (max-width: 768px) {
+	.icon {
+		width: 32px;
+		height: 32px;
+	}
+	.pos {
+		position: absolute;
+		top: 63px;
+	}
+}
