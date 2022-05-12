@@ -1,31 +1,32 @@
 import React, { useState } from 'react';
-import Followings from './Followings';
-import Drawer from './Drawer';
 import { AiOutlineLogout } from 'react-icons/ai';
+
+import Drawer from './Drawer';
+import Followings from './Followings';
 
 const Sidebar = ({ toggle }) => {
 	const [extended, setExtended] = useState(true);
 	return (
 		<>
-			<div className="md:hidden md:invisible">
+			<div className="md:hidden">
 				<div
-					className={`sidebar-height text-2xl md:text-xl font-medium flex flex-col gap-6 border-r-2 w-full xs:w-1/2 xs:shadow-2xl transition-transform ${
+					className={`sidebar-position sidebar-height flex flex-col gap-6 w-full xs:min-w-fit xs:max-w-xs border-r-2 text-2xl font-medium xs:shadow-2xl transition-transform bg-white ${
 						toggle ? '-translate-x-full' : ''
-					} bg-white pos w-full`}
+					}`}
 				>
 					<Drawer />
 					<Followings />
-					<button className="flex flex-row grow-0 items-center p-4 gap-5 border-t-2 font-medium">
+					<button className="flex items-center gap-5 p-4 border-t-2 font-medium hover:bg-slate-200 transition-colors">
 						<AiOutlineLogout className="icon" size={24} />
 						Logout
 					</button>
 				</div>
 			</div>
-			<div className="hidden invisible md:visible md:flex bg-white">
-				<div className="md:h-screen text-sm font-medium flex flex-col gap-6 max-w-xl shadow tracking-wide">
+			<div className="hidden md:block bg-white">
+				<div className="flex flex-col gap-6 max-w-xs h-screen text-sm font-medium tracking-wide shadow">
 					<Drawer extended={extended} setExtended={setExtended} />
 					<Followings extended={extended} />
-					<button className="flex flex-row grow-0 items-center p-2 gap-2 border-t-2 font-medium hover:bg-slate-200 transition-colors">
+					<button className="flex items-center p-2 gap-2 border-t-2 font-medium hover:bg-slate-200 transition-colors">
 						<AiOutlineLogout className="icon" size={24} />
 						{extended ? 'Logout' : ''}
 					</button>

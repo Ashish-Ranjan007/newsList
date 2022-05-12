@@ -1,6 +1,8 @@
 import React from 'react';
 import { CgProfile } from 'react-icons/cg';
 
+import profilePic from '../../assets/profile.avif';
+
 const channels = [
 	'CNN',
 	'Times of India',
@@ -12,10 +14,10 @@ const channels = [
 
 const Followings = ({ extended }) => {
 	return (
-		<div className="tracking-wide grow overflow-auto custom-scrollbar">
+		<div className="hide-scrollbar grow overflow-auto tracking-wide">
 			<h2
-				className={`p-3 text-font-gray sticky top-0 shadow bg-white ${
-					extended ? '' : 'md:invisible md:hidden'
+				className={`sticky top-0 p-3 text-font-gray shadow bg-white ${
+					extended ? '' : 'md:hidden'
 				}`}
 			>
 				Followings
@@ -24,14 +26,13 @@ const Followings = ({ extended }) => {
 				return (
 					<div
 						key={channel}
-						className="flex flex-row flex-shrink-0 items-center p-4 gap-5 md:p-2 md:gap-2 cursor-pointer hover:bg-slate-200 transition-colors"
+						className="flex flex-shrink-0 items-center p-4 md:p-2 gap-5 md:gap-2 cursor-pointer hover:bg-slate-200 transition-colors"
 					>
-						<CgProfile className="icon" size={24} />
-						<p
-							className={`${
-								extended ? '' : 'md:invisible md:hidden'
-							}`}
-						>
+						<img
+							className="h-9 md:h-7 w-9 md:w-7 rounded-full"
+							src={profilePic}
+						/>
+						<p className={`${extended ? '' : 'md:hidden'}`}>
 							{channel}
 						</p>
 					</div>

@@ -1,18 +1,16 @@
-import { signOut } from 'firebase/auth';
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
-import FirebaseContext from '../context/firebase';
 
 function Home() {
 	const [toggle, setToggle] = useState(true);
 
 	return (
-		<div className="md:flex flex-row-reverse justify-end gap-2">
-			<div className="grow w-full relative">
+		<div className="md:flex flex-row-reverse gap-2">
+			<div className="w-full grow">
 				<Header setToggle={setToggle} />
-				<div className="main-content sidebar-height overflow-y-auto flex flex-wrap w-full p-2">
+				<div className="content-height flex flex-wrap w-full p-2 overflow-y-auto">
 					<p>1Home</p>
 					<p>2Home</p>
 					<p>2Home</p>
@@ -108,7 +106,7 @@ function Home() {
 					<p>30Home</p>
 				</div>
 			</div>
-			<div className="grow-0 shrink-0 items-stretch">
+			<div className="flex-none">
 				<Sidebar toggle={toggle} />
 			</div>
 		</div>

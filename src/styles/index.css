@@ -14,15 +14,16 @@ body {
 	height: 100vh;
 }
 
-.custom-scrollbar::-webkit-scrollbar {
+.hide-scrollbar::-webkit-scrollbar {
 	display: none;
 }
-.custom-scrollbar {
+.hide-scrollbar {
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
 }
 
-.sidebar-height {
+.sidebar-height,
+.content-height {
 	height: calc(100vh - 63px);
 }
 
@@ -44,7 +45,7 @@ body {
 		width: 32px;
 		height: 32px;
 	}
-	.pos {
+	.sidebar-position {
 		position: absolute;
 		top: 63px;
 	}

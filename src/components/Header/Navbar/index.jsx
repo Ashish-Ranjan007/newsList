@@ -23,14 +23,14 @@ const Navbar = () => {
 	return (
 		<nav
 			onWheel={horizontalScroll}
-			className="custom-scrollbar h-12 flex flex-row overflow-x-auto shrink max-w-xs xl:max-w-none"
+			className="hide-scrollbar flex shrink h-12 max-w-xs lg:max-w-2xl xl:max-w-none overflow-x-auto"
 		>
 			{topics.map((topic) => {
 				return (
 					<Link
 						to={`topics/${topic}`}
 						key={topic}
-						className="p-3 text-base inline-block font-medium text-font-gray hover:text-black shrink-0 transition-colors"
+						className="inline-block shrink-0 p-3 text-base font-medium text-font-gray hover:text-black transition-colors"
 					>
 						{`# ${topic}`}
 					</Link>
