@@ -1,4 +1,12 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import {
+	collection,
+	doc,
+	getDoc,
+	getDocs,
+	query,
+	where,
+} from 'firebase/firestore';
+import { fisherYatesShuffle } from '../helpers/fisherYates';
 
 export const doesUsernameExists = async (username, firestore) => {
 	const colRef = collection(firestore, 'users');
@@ -42,5 +50,26 @@ export const getDocId = async (email, firestore) => {
 		}
 	});
 
+	return result;
+};
+
+export const getInterests = async (email, firestore) => {
+	const docId = await getDocId(email, firestore);
+	const docRef = doc(firestore, 'users', docId);
+	const docSnap = await getDoc(docRef);
+	const result = docSnap.data().interests;
+
+	fisherYatesShuffle(result);
+	return result;
+};
+
+export const getFollowings = async (email, firestore) => {
+	const docId = await getDocId(email, firestore);
+	const docRef = doc(firestore, 'users', docId);
+	const docSnap = await getDoc(docRef);
+
+	const result = docSnap.data().following;
+
+	fisherYatesShuffle(result);
 	return result;
 };

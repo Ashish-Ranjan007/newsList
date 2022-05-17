@@ -1,115 +1,132 @@
-import React, { useState } from 'react';
+import Masonry from 'react-masonry-css';
+import { useEffect, useContext, useRef, useCallback, useReducer } from 'react';
 
-import Header from '../components/Header';
-import Sidebar from '../components/Sidebar';
+import Article from '../components/Article';
+import Spinner from '../components/Spinner';
+import FirebaseContext from '../context/firebase';
+import { getFollowings } from '../services/firebase';
+import { formatResponse } from '../helpers/formatResponse';
+import { getTopHeadlines, fetchOnScroll } from '../lib/newsApi';
+import { reducer, initialState } from '../reducers/homePgaeReducers';
+
+const breakpointColumnsObj = {
+	default: 4,
+	1280: 3,
+	1024: 2,
+	500: 1,
+};
 
 function Home() {
-	const [toggle, setToggle] = useState(true);
+	const { firestore } = useContext(FirebaseContext);
+	const [state, dispatch] = useReducer(reducer, initialState);
+
+	const pageRef = useRef();
+	const observer = useRef();
+	const hasMoreRef = useRef();
+
+	// Since current states cannot be accessed from within callback function of useCallback Hook
+	pageRef.current = state.page;
+	hasMoreRef.current = state.hasMore;
+
+	useEffect(() => {
+		async function fetchArticles() {
+			dispatch({ type: 'error', payload: false });
+			dispatch({ type: 'loading', payload: true });
+
+			const userEmail = JSON.parse(localStorage.getItem('user')).email;
+
+			try {
+				const followings = await getFollowings(userEmail, firestore);
+				const response = await getTopHeadlines();
+
+				dispatch({ type: 'followings', payload: followings });
+
+				const articles = formatResponse(response.data, followings);
+
+				dispatch({ type: 'articles', payload: articles });
+			} catch (error) {
+				dispatch({ type: 'error', payload: true });
+			} finally {
+				dispatch({ type: 'loading', payload: false });
+			}
+		}
+
+		fetchArticles();
+	}, []);
+
+	const lastArticleRef = useCallback(
+		(node) => {
+			if (state.loading) return;
+			if (observer.current) observer.current.disconnect();
+			observer.current = new IntersectionObserver(async (entries) => {
+				if (entries[0].isIntersecting && hasMoreRef.current) {
+					try {
+						dispatch({ type: 'fetching', payload: true });
+
+						const response = await fetchOnScroll(pageRef.current);
+						const articles = formatResponse(
+							response.data,
+							state.followings
+						);
+
+						dispatch({
+							type: 'page',
+							payload: pageRef.current + 1,
+						});
+						dispatch({ type: 'articles', payload: articles });
+						dispatch({
+							type: 'hasMore',
+							payload:
+								response.data.articles.length > 0
+									? true
+									: false,
+						});
+						dispatch({ type: 'fetching', payload: false });
+					} catch (error) {
+						dispatch({ type: 'error', payload: true });
+					}
+				}
+			});
+			if (node) observer.current.observe(node);
+		},
+		[state.loading, state.hasMore]
+	);
+
+	console.log('home', state.articles);
 
 	return (
-		<div className="md:flex flex-row-reverse gap-2">
-			<div className="w-full grow">
-				<Header setToggle={setToggle} />
-				<div className="content-height flex flex-wrap w-full p-2 overflow-y-auto">
-					<p>1Home</p>
-					<p>2Home</p>
-					<p>2Home</p>
-					<p>3Home</p>
-					<p>4Home</p>
-					<p>5Home</p>
-					<p>6Home</p>
-					<p>7Home</p>
-					<p>8Home</p>
-					<p>9Home</p>
-					<p>10Home</p>
-					<p>11Home</p>
-					<p>12Home</p>
-					<p>13Home</p>
-					<p>14Home</p>
-					<p>15Home</p>
-					<p>16Home</p>
-					<p>17Home</p>
-					<p>18Home</p>
-					<p>19Home</p>
-					<p>20Home</p>
-					<p>21Home</p>
-					<p>21Home</p>
-					<p>23Home</p>
-					<p>24Home</p>
-					<p>25Home</p>
-					<p>26Home</p>
-					<p>27Home</p>
-					<p>28Home</p>
-					<p>29Home</p>
-					<p>30Home</p>
-					<p>1Home</p>
-					<p>2Home</p>
-					<p>2Home</p>
-					<p>3Home</p>
-					<p>4Home</p>
-					<p>5Home</p>
-					<p>6Home</p>
-					<p>7Home</p>
-					<p>8Home</p>
-					<p>9Home</p>
-					<p>10Home</p>
-					<p>11Home</p>
-					<p>12Home</p>
-					<p>13Home</p>
-					<p>14Home</p>
-					<p>15Home</p>
-					<p>16Home</p>
-					<p>17Home</p>
-					<p>18Home</p>
-					<p>19Home</p>
-					<p>20Home</p>
-					<p>21Home</p>
-					<p>21Home</p>
-					<p>23Home</p>
-					<p>24Home</p>
-					<p>25Home</p>
-					<p>26Home</p>
-					<p>27Home</p>
-					<p>28Home</p>
-					<p>29Home</p>
-					<p>30Home</p>
-					<p>1Home</p>
-					<p>2Home</p>
-					<p>2Home</p>
-					<p>3Home</p>
-					<p>4Home</p>
-					<p>5Home</p>
-					<p>6Home</p>
-					<p>7Home</p>
-					<p>8Home</p>
-					<p>9Home</p>
-					<p>10Home</p>
-					<p>11Home</p>
-					<p>12Home</p>
-					<p>13Home</p>
-					<p>14Home</p>
-					<p>15Home</p>
-					<p>16Home</p>
-					<p>17Home</p>
-					<p>18Home</p>
-					<p>19Home</p>
-					<p>20Home</p>
-					<p>21Home</p>
-					<p>21Home</p>
-					<p>23Home</p>
-					<p>24Home</p>
-					<p>25Home</p>
-					<p>26Home</p>
-					<p>27Home</p>
-					<p>28Home</p>
-					<p>29Home</p>
-					<p>30Home</p>
-				</div>
-			</div>
-			<div className="flex-none">
-				<Sidebar toggle={toggle} />
-			</div>
-		</div>
+		<>
+			{state.loading && <Spinner />}
+			{state.error && <Spinner message="An error has occurred" />}
+			<Masonry
+				breakpointCols={breakpointColumnsObj}
+				className="my-masonry-grid"
+				columnClassName="my-masonry-grid_colummn"
+			>
+				{state.articles.map((article, index) => {
+					if (!article.description || article.description.length < 10)
+						return;
+					if (index === state.articles.length - 1) {
+						return (
+							<Article
+								innerRef={lastArticleRef}
+								key={index}
+								article={article}
+							/>
+						);
+					} else {
+						return <Article key={index} article={article} />;
+					}
+				})}
+			</Masonry>
+
+			{!state.hasMore && (
+				<p className="text-center text-lg">
+					You have viewed all articles
+				</p>
+			)}
+			{state.fetching && <Spinner />}
+		</>
 	);
 }
 

@@ -6,6 +6,7 @@ import IsUserLoggedIn from './helpers/IsUserLoggedIn';
 import ProtectedRoute from './helpers/ProtectedRoute';
 import useAuthListener from './hooks/useAuthListener/useAuthListener';
 
+const Main = lazy(() => import('./pages/Main'));
 const HomePage = lazy(() => import('./pages/HomePage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
@@ -14,7 +15,7 @@ const TopicSelectionPage = lazy(() => import('./pages/TopicSelectionPage'));
 
 const App = () => {
 	const { user } = useAuthListener();
-	console.log(user);
+	// console.log('user', user);
 
 	return (
 		<Suspense fallback={<p>Loading...</p>}>
@@ -47,10 +48,13 @@ const App = () => {
 					path={ROUTES.HOME}
 					element={
 						<ProtectedRoute user={user}>
-							<HomePage />
+							<Main />
 						</ProtectedRoute>
 					}
-				/>
+				>
+					<Route path={ROUTES.HOME} element={<HomePage />} />
+					{/* <Route path={ROUTES.PROFILE} element={<ProfilePage />} /> */}
+				</Route>
 				<Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
 			</Routes>
 		</Suspense>

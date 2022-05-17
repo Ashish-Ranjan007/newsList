@@ -8,11 +8,9 @@ import { auth, firestore } from './lib/firebase';
 import FirebaseContext from './context/firebase';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-	<React.StrictMode>
-		<FirebaseContext.Provider value={{ auth, firestore }}>
-			<Router>
-				<App />
-			</Router>
-		</FirebaseContext.Provider>
-	</React.StrictMode>
+	<FirebaseContext.Provider value={{ auth, firestore }}>
+		<Router>
+			<App />
+		</Router>
+	</FirebaseContext.Provider>
 );

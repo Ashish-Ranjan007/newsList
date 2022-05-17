@@ -10,7 +10,7 @@ const Sidebar = ({ toggle }) => {
 		<>
 			<div className="md:hidden">
 				<div
-					className={`sidebar-position sidebar-height flex flex-col gap-6 w-full xs:min-w-fit xs:max-w-xs border-r-2 text-2xl font-medium xs:shadow-2xl transition-transform bg-white ${
+					className={`sidebar-position h-sidebar flex flex-col gap-6 w-full xs:min-w-fit xs:max-w-xs border-r-2 text-2xl font-medium xs:shadow-2xl transition-transform bg-white ${
 						toggle ? '-translate-x-full' : ''
 					}`}
 				>
