@@ -53,6 +53,7 @@ const Article = ({ article, innerRef }) => {
 					{article.source}
 				</Link>
 				<button
+					role="button"
 					disabled={isDisabled ? true : false}
 					onClick={handleToggleFollow}
 					className={`text-xs  px-2 py-0.5 rounded-full border  tracking-wide active:scale-90 ${

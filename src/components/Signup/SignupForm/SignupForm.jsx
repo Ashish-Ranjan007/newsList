@@ -11,7 +11,6 @@ import {
 } from '../../../services/firebase';
 import FormControl from '../../FormControl';
 import TextError from '../../FormControl/TextError';
-import * as ROUTES from '../../../constants/routes';
 import FirebaseContext from '../../../context/firebase';
 
 const SignupForm = () => {
@@ -79,7 +78,7 @@ const SignupForm = () => {
 					notifications: [],
 					dateCreated: Date.now(),
 				});
-				navigate(ROUTES.TOPIC_SELECTION, { replace: true });
+				navigate('/topic-selection', { replace: true });
 			} catch (error) {
 				setSignUpError(true);
 				setTimeout(() => {
@@ -179,7 +178,7 @@ const SignupForm = () => {
 			<p className="my-4 lg:my-2 text-xs">
 				Already have an account ?
 				<Link
-					to={ROUTES.LOGIN}
+					to="/login"
 					role="link"
 					aria-label="Signup if you don't already have an account"
 					className="text-sky-blue cursor-pointer ml-1 text-sm"

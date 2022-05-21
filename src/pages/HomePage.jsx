@@ -16,7 +16,7 @@ const breakpointColumnsObj = {
 	500: 1,
 };
 
-function Home() {
+function HomePage() {
 	const { firestore } = useContext(FirebaseContext);
 	const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -130,4 +130,4 @@ function Home() {
 	);
 }
 
-export default Home;
+export default HomePage;

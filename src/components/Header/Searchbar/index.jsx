@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 const Searchbar = () => {
+	const navigate = useNavigate();
 	const [query, setQuery] = useState('');
+
+	const handleSubmit = () => {
+		if (query.length > 0) {
+			navigate(`search/${query}`);
+		}
+	};
+
 	return (
-		<form className="flex flex-row flex-nowrap items-center border-b-2 border-black p-2 min-w-fit shrink-0">
+		<form
+			role="form"
+			onSubmit={handleSubmit}
+			className="flex flex-row flex-nowrap items-center border-b-2 border-black p-2 min-w-fit shrink-0"
+		>
 			<BsSearch size={24} />
 			<input
 				type="text"

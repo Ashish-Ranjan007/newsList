@@ -1,18 +1,22 @@
-import React from 'react';
-import { CgProfile } from 'react-icons/cg';
+import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 
-import profilePic from '../../assets/profile.avif';
-
-const channels = [
-	'CNN',
-	'Times of India',
-	'Washington Post',
-	'Indian Post',
-	'NDTV',
-	'The Times of India',
-];
+import FirebaseContext from '../../context/firebase';
+import { getFollowings } from '../../services/firebase';
+import { getRandomColor } from '../../helpers/colorPicker';
 
 const Followings = ({ extended }) => {
+	const [following, setFollowing] = useState([]);
+	const { firestore } = useContext(FirebaseContext);
+
+	useEffect(() => {
+		const userEmail = JSON.parse(localStorage.getItem('user')).email;
+		getFollowings(userEmail, firestore).then((result) => {
+			result.sort();
+			setFollowing(result);
+		});
+	}, []);
+
 	return (
 		<div className="hide-scrollbar grow overflow-auto tracking-wide">
 			<h2
@@ -22,20 +26,24 @@ const Followings = ({ extended }) => {
 			>
 				Followings
 			</h2>
-			{channels.map((channel) => {
+			{following.map((channel) => {
 				return (
-					<div
+					<Link
+						to={`channel/${channel}`}
 						key={channel}
 						className="flex flex-shrink-0 items-center p-4 md:p-2 gap-5 md:gap-2 cursor-pointer hover:bg-slate-200 transition-colors"
 					>
-						<img
-							className="h-9 md:h-7 w-9 md:w-7 rounded-full"
-							src={profilePic}
-						/>
+						<div
+							style={{ backgroundColor: getRandomColor() }}
+							className="h-9 md:h-7 w-9 md:w-7 rounded-full flex justify-center items-center text-white font-bold"
+						>
+							{channel[0]}
+						</div>
+
 						<p className={`${extended ? '' : 'md:hidden'}`}>
 							{channel}
 						</p>
-					</div>
+					</Link>
 				);
 			})}
 		</div>

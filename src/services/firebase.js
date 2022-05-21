@@ -73,3 +73,11 @@ export const getFollowings = async (email, firestore) => {
 	fisherYatesShuffle(result);
 	return result;
 };
+
+export const getProfilePic = async (email, firestore) => {
+	const docId = await getDocId(email, firestore);
+	const docRef = doc(firestore, 'users', docId);
+	const docSnap = await getDoc(docRef);
+
+	return [docSnap.data().profilePic, docSnap.data().username];
+};

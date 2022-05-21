@@ -1,32 +1,26 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaBookmark } from 'react-icons/fa';
-import { BsFillBellFill } from 'react-icons/bs';
+import { useContext, useState, useEffect } from 'react';
 
 import logoName from '../../assets/logo2.svg';
-import * as ROUTES from '../../constants/routes';
-import profilePic from '../../assets/profile.avif';
+import FirebaseContext from '../../context/firebase';
+import { getProfilePic } from '../../services/firebase';
 import logoSymbol from '../../assets/newslist-logos.jpeg';
-
-const tabs = [
-	{
-		name: 'Profile',
-		route: ROUTES.PROFILE,
-		icon: () => <img className="icon rounded-full" src={profilePic} />,
-	},
-	{
-		name: 'Saved',
-		route: ROUTES.SAVED,
-		icon: () => <FaBookmark className="icon" size={24} />,
-	},
-	{
-		name: 'Notification',
-		route: ROUTES.NOTIFICATIONS,
-		icon: () => <BsFillBellFill className="icon" size={24} />,
-	},
-];
+import { getRandomColor } from '../../helpers/colorPicker';
 
 const Drawer = ({ extended, setExtended }) => {
+	const [username, setUsername] = useState('');
+	const [profilePic, setProfliePic] = useState('');
+	const { firestore } = useContext(FirebaseContext);
+
+	useEffect(() => {
+		const userEmail = JSON.parse(localStorage.getItem('user')).email;
+		getProfilePic(userEmail, firestore).then((result) => {
+			setProfliePic(result[0]);
+			setUsername(result[1]);
+		});
+	}, []);
+
 	return (
 		<div className="grow-0 border-b-2">
 			<div className="hidden md:flex">
@@ -35,30 +29,35 @@ const Drawer = ({ extended, setExtended }) => {
 						onClick={() => setExtended((prev) => !prev)}
 						src={logoSymbol}
 						className="h-12 w-12 cursor-pointer"
+						alt="logo"
 					/>
-					<Link to={ROUTES.HOME}>
+					<Link to="/">
 						<img
 							src={logoName}
 							className={`h-12 ${extended ? '' : 'md:hidden'}`}
+							alt="extended logo"
 						/>
 					</Link>
 				</div>
 			</div>
-			{tabs.map((tab) => {
-				return (
-					<div key={tab.name}>
-						<Link
-							to={tab.route}
-							className="flex flex-row items-center p-4 md:p-2 gap-5 md:gap-2 tracking-wide hover:bg-slate-200 transition-colors"
+			<div>
+				<Link
+					to="profile"
+					className="flex flex-row items-center p-4 md:p-2 gap-5 md:gap-2 tracking-wide hover:bg-slate-200 transition-colors"
+				>
+					{profilePic?.length > 0 ? (
+						<img className="icon rounded-full" src={profilePic} />
+					) : (
+						<div
+							style={{ backgroundColor: getRandomColor() }}
+							className="flex justify-center items-center text-white font-bold icon rounded-full"
 						>
-							{tab.icon()}
-							<span className={extended ? '' : 'md:hidden'}>
-								{tab.name}
-							</span>
-						</Link>
-					</div>
-				);
-			})}
+							{username[0]?.toUpperCase()}
+						</div>
+					)}
+					<span className={extended ? '' : 'md:hidden'}>Profile</span>
+				</Link>
+			</div>
 		</div>
 	);
 };

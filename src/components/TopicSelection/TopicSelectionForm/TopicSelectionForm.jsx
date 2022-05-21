@@ -3,7 +3,6 @@ import React, { useContext, useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 
 import { getDocId } from '../../../services/firebase';
-import * as ROUTES from './../../../constants/routes';
 import FirebaseContext from '../../../context/firebase';
 import { topicsList } from '../../../helpers/topicsList';
 import { colorPicker } from '../../../helpers/colorPicker';
@@ -31,7 +30,7 @@ const TopicSelectionForm = () => {
 			}
 		}
 
-		navigate(ROUTES.HOME, { replace: true });
+		navigate('/', { replace: true });
 	};
 
 	return (

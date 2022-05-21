@@ -6,7 +6,7 @@ export const getTopHeadlines = () => {
 		url: 'https://newsapi.org/v2/top-headlines',
 		params: { country: 'in', page: 1 },
 		headers: {
-			Authorization: '4df3c8b831e64cd4bce972c3ee4de08d',
+			Authorization: import.meta.env.VITE_NEWS_API,
 		},
 	});
 };
@@ -23,7 +23,7 @@ export const fetchOnScroll = (page) => {
 		url: 'https://newsapi.org/v2/everything',
 		params: params,
 		headers: {
-			Authorization: '4df3c8b831e64cd4bce972c3ee4de08d',
+			Authorization: import.meta.env.VITE_NEWS_API,
 		},
 	});
 };

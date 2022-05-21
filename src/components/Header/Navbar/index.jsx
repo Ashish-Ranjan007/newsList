@@ -22,6 +22,7 @@ const Navbar = () => {
 
 	return (
 		<nav
+			role="menubar"
 			onWheel={horizontalScroll}
 			className="hide-scrollbar flex shrink h-12 max-w-xs lg:max-w-2xl xl:max-w-none overflow-x-auto"
 		>
