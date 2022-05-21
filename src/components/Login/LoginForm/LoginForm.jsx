@@ -5,9 +5,8 @@ import React, { useContext, useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
 import FormControl from '../../FormControl';
-import * as ROUTES from '../../../constants/routes';
-import FirebaseContext from '../../../context/firebase';
 import TextError from '../../FormControl/TextError';
+import FirebaseContext from '../../../context/firebase';
 
 const LoginForm = () => {
 	const navigate = useNavigate();
@@ -33,7 +32,7 @@ const LoginForm = () => {
 				values.email,
 				values.password
 			);
-			navigate(ROUTES.HOME, { replace: true });
+			navigate('/', { replace: true });
 		} catch (error) {
 			setLoginError(true);
 			setTimeout(() => {
@@ -89,7 +88,7 @@ const LoginForm = () => {
 			<p className="my-2 text-center text-xs">
 				Don't have an account ?
 				<Link
-					to={ROUTES.SIGNUP}
+					to="/signup"
 					role="link"
 					aria-label="Signup if you don't already have an account"
 					className="text-sky-blue cursor-pointer ml-1 text-sm"

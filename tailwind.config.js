@@ -7,6 +7,16 @@ module.exports = {
 			},
 			colors: {
 				'sky-blue': '#008DFF',
+				'font-gray': '#757575',
+			},
+			minWidth: {
+				md: '700px',
+			},
+			screens: {
+				xs: '500px',
+			},
+			maxWidth: {
+				xs: '400px',
 			},
 		},
 	},

@@ -1,3 +1,90 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* @layer utilities {
+	@variants responsive {
+		.masonry {
+			column-gap: 1.5em;
+			column-count: 1;
+		}
+		.masonry-sm {
+			column-gap: 1.5em;
+			column-count: 2;
+		}
+		.masonry-md {
+			column-gap: 1.5em;
+			column-count: 3;
+		}
+		.break-inside {
+			break-inside: avoid;
+		}
+	}
+} */
+
+body {
+	width: 100vw;
+	height: 100vh;
+	scroll-behavior: smooth;
+	overflow-x: hidden;
+}
+
+#root {
+	width: 100vw;
+	height: 100vh;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+.hide-scrollbar {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+.h-sidebar,
+.h-content {
+	height: calc(100vh - 63px);
+}
+
+.icon {
+	width: 24px;
+	height: 24px;
+}
+
+@media (max-width: 1100px) {
+	.flex-one {
+		flex: 5;
+	}
+	.flex-two {
+		flex: 6;
+	}
+}
+@media (max-width: 768px) {
+	.icon {
+		width: 32px;
+		height: 32px;
+	}
+	.sidebar-position {
+		position: absolute;
+		top: 63px;
+	}
+}
+
+.my-masonry-grid {
+	display: -webkit-box; /* Not needed if autoprefixing */
+	display: -ms-flexbox; /* Not needed if autoprefixing */
+	display: flex;
+	width: auto;
+}
+.my-masonry-grid_column {
+	padding-left: 30px;
+	background-clip: padding-box;
+}
+
+/* Style your items */
+.my-masonry-grid_column > div {
+	/* change div to reference your elements you put in <Masonry> */
+	background: grey;
+	margin-bottom: 30px;
+}
