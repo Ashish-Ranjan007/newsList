@@ -6,9 +6,11 @@ const Searchbar = () => {
 	const navigate = useNavigate();
 	const [query, setQuery] = useState('');
 
-	const handleSubmit = () => {
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
 		if (query.length > 0) {
-			navigate(`search/${query}`);
+			navigate(`/search/${query}`);
 		}
 	};
 
