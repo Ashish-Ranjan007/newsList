@@ -1,13 +1,13 @@
 import Masonry from 'react-masonry-css';
 import { useEffect, useContext, useRef, useCallback, useReducer } from 'react';
 
-import Article from '../components/Article';
-import Spinner from '../components/Spinner';
-import FirebaseContext from '../context/firebase';
-import { getFollowings } from '../services/firebase';
-import { formatResponse } from '../helpers/formatResponse';
-import { getTopHeadlines, fetchOnScroll } from '../lib/newsApi';
-import { reducer, initialState } from '../reducers/homePgaeReducers';
+import { getQuery } from '../../lib/newsApi';
+import Article from '../../components/Article';
+import Spinner from '../../components/Spinner';
+import FirebaseContext from '../../context/firebase';
+import { getFollowings } from '../../services/firebase';
+import { formatResponse } from '../../helpers/formatResponse';
+import { reducer, initialState } from '../../reducers/homePgaeReducers';
 
 const breakpointColumnsObj = {
 	default: 4,
@@ -16,7 +16,7 @@ const breakpointColumnsObj = {
 	500: 1,
 };
 
-function HomePage() {
+function InfiniteScroller({ query }) {
 	const { firestore } = useContext(FirebaseContext);
 	const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -28,6 +28,11 @@ function HomePage() {
 	pageRef.current = state.page;
 	hasMoreRef.current = state.hasMore;
 
+	// Reset articles to [] everytime source changes
+	useEffect(() => {
+		dispatch({ type: 'resetArticles' });
+	}, [query]);
+
 	useEffect(() => {
 		async function fetchArticles() {
 			dispatch({ type: 'error', payload: false });
@@ -36,15 +41,18 @@ function HomePage() {
 			const userEmail = JSON.parse(localStorage.getItem('user')).email;
 
 			try {
+				const response = await getQuery(query, pageRef.current);
 				const followings = await getFollowings(userEmail, firestore);
-				const response = await getTopHeadlines();
-
-				dispatch({ type: 'followings', payload: followings });
-
 				const articles = formatResponse(response.data, followings);
 
 				dispatch({ type: 'articles', payload: articles });
+				dispatch({ type: 'followings', payload: followings });
+				dispatch({
+					type: 'hasMore',
+					payload: response.data.articles.length > 0 ? true : false,
+				});
 			} catch (error) {
+				console.log(error);
 				dispatch({ type: 'error', payload: true });
 			} finally {
 				dispatch({ type: 'loading', payload: false });
@@ -52,7 +60,7 @@ function HomePage() {
 		}
 
 		fetchArticles();
-	}, []);
+	}, [query, state.page]);
 
 	const lastArticleRef = useCallback(
 		(node) => {
@@ -60,31 +68,10 @@ function HomePage() {
 			if (observer.current) observer.current.disconnect();
 			observer.current = new IntersectionObserver(async (entries) => {
 				if (entries[0].isIntersecting && hasMoreRef.current) {
-					try {
-						dispatch({ type: 'fetching', payload: true });
-
-						const response = await fetchOnScroll(pageRef.current);
-						const articles = formatResponse(
-							response.data,
-							state.followings
-						);
-
-						dispatch({
-							type: 'page',
-							payload: pageRef.current + 1,
-						});
-						dispatch({ type: 'articles', payload: articles });
-						dispatch({
-							type: 'hasMore',
-							payload:
-								response.data.articles.length > 0
-									? true
-									: false,
-						});
-						dispatch({ type: 'fetching', payload: false });
-					} catch (error) {
-						dispatch({ type: 'error', payload: true });
-					}
+					dispatch({
+						type: 'page',
+						payload: pageRef.current + 1,
+					});
 				}
 			});
 			if (node) observer.current.observe(node);
@@ -92,7 +79,7 @@ function HomePage() {
 		[state.loading, state.hasMore]
 	);
 
-	console.log('home', state.articles);
+	console.log('fetched Data', state.articles);
 
 	return (
 		<>
@@ -128,4 +115,4 @@ function HomePage() {
 	);
 }
 
-export default HomePage;
+export default InfiniteScroller;

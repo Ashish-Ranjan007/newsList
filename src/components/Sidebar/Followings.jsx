@@ -29,7 +29,7 @@ const Followings = ({ extended }) => {
 			{following.map((channel) => {
 				return (
 					<Link
-						to={`channel/${channel}`}
+						to={`source/${channel}`}
 						key={channel}
 						className="flex flex-shrink-0 items-center p-4 md:p-2 gap-5 md:gap-2 cursor-pointer hover:bg-slate-200 transition-colors"
 					>

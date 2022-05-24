@@ -19,6 +19,8 @@ export const reducer = (state, action) => {
 				...state,
 				articles: [...state.articles, ...action.payload],
 			};
+		case 'resetArticles':
+			return { ...state, articles: [] };
 		case 'loading':
 			return { ...state, loading: action.payload };
 		case 'hasMore':
