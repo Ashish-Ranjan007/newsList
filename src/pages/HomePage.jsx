@@ -7,7 +7,7 @@ import FirebaseContext from '../context/firebase';
 import { getFollowings } from '../services/firebase';
 import { formatResponse } from '../helpers/formatResponse';
 import { getTopHeadlines, fetchOnScroll } from '../lib/newsApi';
-import { reducer, initialState } from '../reducers/homePgaeReducers';
+import { reducer, initialState } from '../reducers/homePageReducers';
 
 const breakpointColumnsObj = {
 	default: 4,

@@ -29,7 +29,7 @@ const Navbar = () => {
 			{topics.map((topic) => {
 				return (
 					<Link
-						to={`topics/${topic}`}
+						to={`/topic/${topic}`}
 						key={topic}
 						className="inline-block shrink-0 p-3 text-base font-medium text-font-gray hover:text-black transition-colors"
 					>
