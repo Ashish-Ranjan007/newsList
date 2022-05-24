@@ -8,6 +8,7 @@ import useAuthListener from './hooks/useAuthListener/useAuthListener';
 
 const Main = lazy(() => import('./pages/Main'));
 const HomePage = lazy(() => import('./pages/HomePage'));
+const TopicPage = lazy(() => import('./pages/TopicPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
 const SourcePage = lazy(() => import('./pages/SourcePage'));
@@ -54,6 +55,7 @@ const App = () => {
 					}
 				>
 					<Route path={ROUTES.HOME} element={<HomePage />} />
+					<Route path={ROUTES.TOPIC} element={<TopicPage />} />
 					<Route path={ROUTES.SOURCE} element={<SourcePage />} />
 				</Route>
 				<Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
