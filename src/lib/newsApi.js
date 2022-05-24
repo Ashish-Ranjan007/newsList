@@ -27,3 +27,20 @@ export const fetchOnScroll = (page) => {
 		},
 	});
 };
+
+export const getQuery = (query, page) => {
+	const params = {
+		q: query,
+		to: new Date().toISOString(),
+		page: page,
+	};
+
+	return axios({
+		method: 'GET',
+		url: 'https://newsapi.org/v2/everything',
+		params: params,
+		headers: {
+			Authorization: import.meta.env.VITE_NEWS_API,
+		},
+	});
+};

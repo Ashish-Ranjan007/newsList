@@ -47,7 +47,7 @@ const Article = ({ article, innerRef }) => {
 					{article.source[0]}
 				</div>
 				<Link
-					to={`source/${article.source}`}
+					to={`/source/${article.source}`}
 					className="text-sm font-medium tracking-wide"
 				>
 					{article.source}
