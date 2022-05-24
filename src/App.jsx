@@ -10,6 +10,7 @@ const Main = lazy(() => import('./pages/Main'));
 const HomePage = lazy(() => import('./pages/HomePage'));
 const TopicPage = lazy(() => import('./pages/TopicPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
+const SearchPage = lazy(() => import('./pages/SearchPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
 const SourcePage = lazy(() => import('./pages/SourcePage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
@@ -56,6 +57,7 @@ const App = () => {
 				>
 					<Route path={ROUTES.HOME} element={<HomePage />} />
 					<Route path={ROUTES.TOPIC} element={<TopicPage />} />
+					<Route path={ROUTES.SEARCH} element={<SearchPage />} />
 					<Route path={ROUTES.SOURCE} element={<SourcePage />} />
 				</Route>
 				<Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />

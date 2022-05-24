@@ -5,6 +5,7 @@ export const SAVED = 'saved';
 export const SIGNUP = 'signup';
 export const PROFILE = 'profile';
 export const TOPIC = 'topic/:topic';
+export const SEARCH = 'search/:query';
 export const SOURCE = 'source/:source';
 export const NOTIFICATIONS = 'notifications';
 export const TOPIC_SELECTION = 'topic-selection';
