@@ -22,7 +22,7 @@ const Interests = () => {
 	}, []);
 
 	const initialValues = {
-		interests: [],
+		interests: [...interests],
 	};
 
 	const onSubmit = async (values) => {
@@ -44,7 +44,11 @@ const Interests = () => {
 
 	return (
 		<div>
-			<Formik initialValues={initialValues} onSubmit={onSubmit}>
+			<Formik
+				enableReinitialize={true}
+				initialValues={initialValues}
+				onSubmit={onSubmit}
+			>
 				{(formik) => {
 					return (
 						<Form>
