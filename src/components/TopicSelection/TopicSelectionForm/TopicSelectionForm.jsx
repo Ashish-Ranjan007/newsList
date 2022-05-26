@@ -52,7 +52,9 @@ const TopicSelectionForm = () => {
 							onClick={(e) =>
 								setTopics([
 									...topics,
-									e.target.textContent.split(' ')[1],
+									e.target.textContent
+										.split(' ')[1]
+										.toLowerCase(),
 								])
 							}
 						>

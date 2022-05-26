@@ -20,7 +20,7 @@ const Followings = () => {
 
 	const handleClick = async (e) => {
 		setIsDisabled(true);
-		console.log(e.target.value);
+
 		try {
 			const docId = await getDocId(userEmail, firestore);
 			const docRef = doc(firestore, 'users', docId);
