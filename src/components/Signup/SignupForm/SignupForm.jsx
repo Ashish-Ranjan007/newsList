@@ -76,6 +76,7 @@ const SignupForm = () => {
 					comments: [],
 					replies: [],
 					notifications: [],
+					profilePic: '',
 					dateCreated: Date.now(),
 				});
 				navigate('/topic-selection', { replace: true });

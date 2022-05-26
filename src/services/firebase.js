@@ -4,6 +4,7 @@ import {
 	getDoc,
 	getDocs,
 	query,
+	updateDoc,
 	where,
 } from 'firebase/firestore';
 import { fisherYatesShuffle } from '../helpers/fisherYates';
@@ -80,4 +81,31 @@ export const getProfilePic = async (email, firestore) => {
 	const docSnap = await getDoc(docRef);
 
 	return [docSnap.data().profilePic, docSnap.data().username];
+};
+
+export const updateProfilePic = async (email, firestore, imageUrl) => {
+	const docId = await getDocId(email, firestore);
+	const docRef = doc(firestore, 'users', docId);
+
+	await updateDoc(docRef, {
+		profilePic: imageUrl,
+	});
+};
+
+export const updateEmailFirestore = async (email, firestore, newEmail) => {
+	const docId = await getDocId(email, firestore);
+	const docRef = doc(firestore, 'users', docId);
+
+	await updateDoc(docRef, {
+		email: newEmail,
+	});
+};
+
+export const updateUsername = async (email, firestore, username) => {
+	const docId = await getDocId(email, firestore);
+	const docRef = doc(firestore, 'users', docId);
+
+	await updateDoc(docRef, {
+		username: username,
+	});
 };
