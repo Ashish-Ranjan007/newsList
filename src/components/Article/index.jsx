@@ -21,7 +21,7 @@ const Article = ({ article, innerRef }) => {
 			const docRef = doc(firestore, 'users', docId);
 
 			await updateDoc(docRef, {
-				following: toggleFollow
+				followings: toggleFollow
 					? arrayRemove(article.source)
 					: arrayUnion(article.source),
 			});

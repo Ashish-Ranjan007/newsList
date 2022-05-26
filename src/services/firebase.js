@@ -69,7 +69,7 @@ export const getFollowings = async (email, firestore) => {
 	const docRef = doc(firestore, 'users', docId);
 	const docSnap = await getDoc(docRef);
 
-	const result = docSnap.data().following;
+	const result = docSnap.data().followings;
 
 	fisherYatesShuffle(result);
 	return result;
