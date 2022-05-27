@@ -4,7 +4,7 @@ import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 
 import { getDocId } from '../../services/firebase';
 import FirebaseContext from '../../context/firebase';
-import { getRandomColor } from '../../helpers/colorPicker';
+import { getColor } from '../../helpers/colorPicker';
 import { getDiffInDays } from '../../helpers/getDiffInDays';
 
 const Article = ({ article, innerRef }) => {
@@ -41,7 +41,7 @@ const Article = ({ article, innerRef }) => {
 		>
 			<div className="flex items-center gap-2">
 				<div
-					style={{ backgroundColor: getRandomColor() }}
+					style={{ backgroundColor: getColor(article.source[0]) }}
 					className={`icon rounded-full text-center text-white font-bold`}
 				>
 					{article.source[0]}

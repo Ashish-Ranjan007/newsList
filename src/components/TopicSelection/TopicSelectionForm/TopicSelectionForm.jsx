@@ -5,7 +5,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { getDocId } from '../../../services/firebase';
 import FirebaseContext from '../../../context/firebase';
 import { topicsList } from '../../../helpers/topicsList';
-import { colorPicker } from '../../../helpers/colorPicker';
+import { getColor } from '../../../helpers/colorPicker';
 
 const TopicSelectionForm = () => {
 	const navigate = useNavigate();
@@ -37,7 +37,7 @@ const TopicSelectionForm = () => {
 		<div className="font-body text-base font-medium tracking-wide">
 			<div className="flex flex-row flex-wrap gap-x-3 gap-y-2 my-2">
 				{topicsList.map((topic) => {
-					const color = colorPicker();
+					const color = getColor(topic[0]);
 					return (
 						<button
 							key={topic}
@@ -48,15 +48,8 @@ const TopicSelectionForm = () => {
 									: 'transparent',
 								border: `1px solid ${color}`,
 							}}
-							className={`px-4 py-2 border rounded-3xl text-sm font-medium`}
-							onClick={(e) =>
-								setTopics([
-									...topics,
-									e.target.textContent
-										.split(' ')[1]
-										.toLowerCase(),
-								])
-							}
+							className="px-4 py-2 border rounded-3xl text-sm font-medium capitalize"
+							onClick={() => setTopics([...topics, topic])}
 						>
 							{`# ${topic}`}
 						</button>

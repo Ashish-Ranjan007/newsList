@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 
 import FirebaseContext from '../../context/firebase';
+import { getColor } from '../../helpers/colorPicker';
 import { getFollowings } from '../../services/firebase';
-import { getRandomColor } from '../../helpers/colorPicker';
 
 const Followings = ({ extended }) => {
 	const [following, setFollowing] = useState([]);
@@ -34,7 +34,7 @@ const Followings = ({ extended }) => {
 						className="flex flex-shrink-0 items-center p-4 md:p-2 gap-5 md:gap-2 cursor-pointer hover:bg-slate-200 transition-colors"
 					>
 						<div
-							style={{ backgroundColor: getRandomColor() }}
+							style={{ backgroundColor: getColor(channel[0]) }}
 							className="h-9 md:h-7 w-9 md:w-7 rounded-full flex justify-center items-center text-white font-bold"
 						>
 							{channel[0]}

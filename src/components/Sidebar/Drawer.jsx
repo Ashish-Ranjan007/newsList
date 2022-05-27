@@ -6,15 +6,15 @@ import logoName from '../../assets/logo2.svg';
 import FirebaseContext from '../../context/firebase';
 import { getProfilePic } from '../../services/firebase';
 import logoSymbol from '../../assets/newslist-logos.jpeg';
-import { getRandomColor } from '../../helpers/colorPicker';
+import { getColor } from '../../helpers/colorPicker';
 
 const Drawer = ({ extended, setExtended }) => {
 	const [username, setUsername] = useState('');
 	const [profilePic, setProfliePic] = useState('');
 	const { firestore } = useContext(FirebaseContext);
+	const userEmail = JSON.parse(localStorage.getItem('user')).email;
 
 	useEffect(() => {
-		const userEmail = JSON.parse(localStorage.getItem('user')).email;
 		getProfilePic(userEmail, firestore).then((result) => {
 			setProfliePic(result[0]);
 			setUsername(result[1]);
@@ -49,10 +49,10 @@ const Drawer = ({ extended, setExtended }) => {
 						<img className="icon rounded-full" src={profilePic} />
 					) : (
 						<div
-							style={{ backgroundColor: getRandomColor() }}
+							style={{ backgroundColor: getColor(userEmail[0]) }}
 							className="flex justify-center items-center text-white font-bold icon rounded-full"
 						>
-							{username[0]?.toUpperCase()}
+							{userEmail[0]?.toUpperCase()}
 						</div>
 					)}
 					<span className={extended ? '' : 'md:hidden'}>Profile</span>

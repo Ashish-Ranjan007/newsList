@@ -16,7 +16,7 @@ import {
 import ToastContext from '../../context/toast';
 import TextError from '../FormControl/TextError';
 import FirebaseContext from '../../context/firebase';
-import { getRandomColor } from '../../helpers/colorPicker';
+import { getColor } from '../../helpers/colorPicker';
 
 const MyDetails = () => {
 	const navigate = useNavigate();
@@ -30,9 +30,9 @@ const MyDetails = () => {
 
 	const { notify } = useContext(ToastContext);
 	const { auth, firestore, storage } = useContext(FirebaseContext);
+	const userEmail = JSON.parse(localStorage.getItem('user')).email;
 
 	useEffect(() => {
-		const userEmail = JSON.parse(localStorage.getItem('user')).email;
 		getProfilePic(userEmail, firestore).then((res) => {
 			setProfilePic(res[0]);
 		});
@@ -43,7 +43,6 @@ const MyDetails = () => {
 		setIsDisabled(true);
 
 		const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-		const userEmail = JSON.parse(localStorage.getItem('user')).email;
 
 		if (image) {
 			const imageRef = ref(storage, image.name);
@@ -126,11 +125,11 @@ const MyDetails = () => {
 						<div className="md:w-32 md:mr-8 md:flex justify-end">
 							<div
 								style={{
-									backgroundColor: getRandomColor(),
+									backgroundColor: getColor(userEmail[0]),
 								}}
 								className="flex justify-center items-center text-white font-bold icon rounded-full"
 							>
-								{username[0]?.toUpperCase()}
+								{userEmail[0]?.toUpperCase()}
 							</div>
 						</div>
 					)}
