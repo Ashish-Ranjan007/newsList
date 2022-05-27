@@ -158,7 +158,7 @@ const MyDetails = () => {
 				</div>
 				<div className="mb-4 md:flex justify-center items-center">
 					<label
-						className="md:w-32 md:mr-8 text-right font-semibold tracking-wider"
+						className="md:w-32 md:mr-8 text-right font-medium tracking-wider"
 						htmlFor="username"
 					>
 						Username
@@ -175,7 +175,7 @@ const MyDetails = () => {
 				</div>
 				<div className="mb-4 md:flex justify-center items-center">
 					<label
-						className="md:w-32 md:mr-8 text-right font-semibold tracking-wider"
+						className="md:w-32 md:mr-8 text-right font-medium tracking-wider"
 						htmlFor="email"
 					>
 						Email
