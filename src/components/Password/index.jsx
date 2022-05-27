@@ -47,6 +47,7 @@ const Password = () => {
 			await reauthenticateWithCredential(auth.currentUser, credentials);
 			updatePassword(auth.currentUser, values.newPassword);
 			await signOut(auth).then(() => {
+				localStorage.removeItem('user');
 				navigate('/login');
 			});
 		} catch (error) {

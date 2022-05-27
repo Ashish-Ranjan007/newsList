@@ -17,6 +17,7 @@ const Sidebar = ({ toggle }) => {
 		setIsDisabled(true);
 
 		signOut(auth).then(() => {
+			localStorage.removeItem('user');
 			navigate('/login');
 		});
 	};

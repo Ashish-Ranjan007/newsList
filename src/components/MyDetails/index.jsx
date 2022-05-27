@@ -92,11 +92,8 @@ const MyDetails = () => {
 			updateEmail(auth.currentUser, email)
 				.then(() => {
 					updateEmailFirestore(userEmail, firestore, email);
-					localStorage.setItem(
-						'user',
-						JSON.stringify(auth.currentUser)
-					);
 					signOut(auth).then(() => {
+						localStorage.removeItem('user');
 						navigate('/login');
 					});
 				})
