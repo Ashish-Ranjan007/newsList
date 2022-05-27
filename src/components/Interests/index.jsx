@@ -4,15 +4,20 @@ import { doc, updateDoc } from 'firebase/firestore';
 import React, { useContext, useEffect, useState } from 'react';
 
 import FormControl from '../FormControl';
+import ToastContext from '../../context/toast';
 import FirebaseContext from '../../context/firebase';
 import { checkboxOptions } from '../../helpers/checkboxOptions';
 import { getDocId, getInterests } from '../../services/firebase';
 
 const Interests = () => {
 	const navigate = useNavigate();
+
 	const [interests, setInterests] = useState([]);
 	const [isDisabled, setIsDisabled] = useState(false);
+
+	const { notify } = useContext(ToastContext);
 	const { firestore } = useContext(FirebaseContext);
+
 	const userEmail = JSON.parse(localStorage.getItem('user')).email;
 
 	useEffect(() => {
@@ -38,6 +43,7 @@ const Interests = () => {
 			console.log(error);
 		} finally {
 			setIsDisabled(false);
+			notify('Topics of Interests has been updated');
 			navigate('/');
 		}
 	};

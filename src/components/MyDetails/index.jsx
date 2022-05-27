@@ -13,18 +13,22 @@ import {
 	updateProfilePic,
 	updateEmailFirestore,
 } from '../../services/firebase';
+import ToastContext from '../../context/toast';
 import TextError from '../FormControl/TextError';
 import FirebaseContext from '../../context/firebase';
 import { getRandomColor } from '../../helpers/colorPicker';
 
 const MyDetails = () => {
 	const navigate = useNavigate();
+
 	const [error, setError] = useState('');
 	const [email, setEmail] = useState('');
 	const [image, setImage] = useState(null);
 	const [username, setUsername] = useState('');
 	const [profilePic, setProfilePic] = useState('');
 	const [isDisabled, setIsDisabled] = useState(false);
+
+	const { notify } = useContext(ToastContext);
 	const { auth, firestore, storage } = useContext(FirebaseContext);
 
 	useEffect(() => {
@@ -101,7 +105,7 @@ const MyDetails = () => {
 					console.log(error);
 				});
 		}
-
+		notify('Details has been updated!');
 		setIsDisabled(false);
 		navigate('/');
 	};

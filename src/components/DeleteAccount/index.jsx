@@ -8,12 +8,12 @@ import {
 	reauthenticateWithCredential,
 } from 'firebase/auth';
 import { doc } from 'firebase/firestore';
+import { deleteDoc } from 'firebase/firestore';
 
 import FormControl from '../FormControl';
-import { getDocId } from '../../services/firebase';
 import TextError from '../FormControl/TextError';
+import { getDocId } from '../../services/firebase';
 import FirebaseContext from '../../context/firebase';
-import { deleteDoc } from 'firebase/firestore';
 
 const DeleteAccount = () => {
 	const navigate = useNavigate();
