@@ -69,7 +69,6 @@ const SignupForm = () => {
 					lastName: values.lName,
 					followings: [],
 					interests: [],
-					savedArticles: [],
 					profilePic: '',
 					dateCreated: Date.now(),
 				});
