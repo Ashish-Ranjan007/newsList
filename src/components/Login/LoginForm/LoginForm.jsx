@@ -27,11 +27,12 @@ const LoginForm = () => {
 
 	const onSubmit = async (values, onSubmitProps) => {
 		try {
-			await signInWithEmailAndPassword(
+			const authUser = await signInWithEmailAndPassword(
 				auth,
 				values.email,
 				values.password
 			);
+			localStorage.setItem('user', JSON.stringify(authUser));
 			navigate('/', { replace: true });
 		} catch (error) {
 			setLoginError(true);

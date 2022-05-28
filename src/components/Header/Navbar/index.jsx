@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const topics = [
 	'Business',
@@ -28,13 +28,13 @@ const Navbar = () => {
 		>
 			{topics.map((topic) => {
 				return (
-					<Link
+					<NavLink
 						to={`/topic/${topic}`}
 						key={topic}
-						className="inline-block shrink-0 p-3 text-base font-medium text-font-gray hover:text-black transition-colors"
+						className="inline-block shrink-0 p-3 text-base font-medium text-font-gray hover:text-light-red transition-colors"
 					>
 						{`# ${topic}`}
-					</Link>
+					</NavLink>
 				);
 			})}
 		</nav>

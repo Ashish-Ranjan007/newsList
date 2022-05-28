@@ -67,15 +67,9 @@ const SignupForm = () => {
 					email: values.email,
 					firstName: values.fName,
 					lastName: values.lName,
-					followers: [],
-					following: [],
+					followings: [],
 					interests: [],
-					savedArticles: [],
-					likedArticles: [],
-					likedComments: [],
-					comments: [],
-					replies: [],
-					notifications: [],
+					profilePic: '',
 					dateCreated: Date.now(),
 				});
 				navigate('/topic-selection', { replace: true });

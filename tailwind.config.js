@@ -6,6 +6,7 @@ module.exports = {
 				body: ['Poppins', 'sans-serif'],
 			},
 			colors: {
+				'light-red': '#ff0057',
 				'sky-blue': '#008DFF',
 				'font-gray': '#757575',
 			},
