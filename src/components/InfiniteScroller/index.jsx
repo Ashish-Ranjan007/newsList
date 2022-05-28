@@ -79,8 +79,6 @@ function InfiniteScroller({ query }) {
 		[state.loading, state.hasMore]
 	);
 
-	console.log('fetched Data', state.articles);
-
 	return (
 		<>
 			{state.loading && <Spinner />}

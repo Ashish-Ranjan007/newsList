@@ -92,8 +92,6 @@ function HomePage() {
 		[state.loading, state.hasMore]
 	);
 
-	console.log('home', state.articles);
-
 	return (
 		<>
 			{state.loading && <Spinner />}

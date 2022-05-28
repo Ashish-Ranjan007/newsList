@@ -1,14 +1,10 @@
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
 import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { addDoc, collection } from 'firebase/firestore';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
-import {
-	doesEmailExists,
-	doesUsernameExists,
-} from '../../../services/firebase';
 import FormControl from '../../FormControl';
 import TextError from '../../FormControl/TextError';
 import FirebaseContext from '../../../context/firebase';
@@ -41,45 +37,31 @@ const SignupForm = () => {
 	});
 
 	const onSubmit = async (values, onSubmitProps) => {
-		const usernameExists = await doesUsernameExists(
-			values.username,
-			firestore
-		);
-		const emailExists = await doesEmailExists(values.email, firestore);
-
-		if (usernameExists) {
-			onSubmitProps.setFieldError('username', 'Username is taken');
+		try {
+			const createdUser = await createUserWithEmailAndPassword(
+				auth,
+				values.email,
+				values.password
+			);
+			const colRef = collection(firestore, 'users');
+			await addDoc(colRef, {
+				userId: createdUser.user.uid,
+				username: values.username.toLowerCase(),
+				email: values.email,
+				firstName: values.fName,
+				lastName: values.lName,
+				followings: [],
+				interests: [],
+				profilePic: '',
+				dateCreated: Date.now(),
+			});
+			navigate('/topic-selection', { replace: true });
+		} catch (error) {
+			setSignUpError(true);
+			setTimeout(() => {
+				setSignUpError(false);
+			}, 10000);
 			onSubmitProps.setSubmitting(false);
-		} else if (emailExists) {
-			onSubmitProps.setFieldError('email', 'Email already exists');
-			onSubmitProps.setSubmitting(false);
-		} else {
-			try {
-				const createdUser = await createUserWithEmailAndPassword(
-					auth,
-					values.email,
-					values.password
-				);
-				const colRef = collection(firestore, 'users');
-				await addDoc(colRef, {
-					userId: createdUser.user.uid,
-					username: values.username.toLowerCase(),
-					email: values.email,
-					firstName: values.fName,
-					lastName: values.lName,
-					followings: [],
-					interests: [],
-					profilePic: '',
-					dateCreated: Date.now(),
-				});
-				navigate('/topic-selection', { replace: true });
-			} catch (error) {
-				setSignUpError(true);
-				setTimeout(() => {
-					setSignUpError(false);
-				}, 10000);
-				onSubmitProps.setSubmitting(false);
-			}
 		}
 	};
 

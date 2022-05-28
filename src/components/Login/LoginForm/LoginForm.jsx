@@ -32,7 +32,7 @@ const LoginForm = () => {
 				values.email,
 				values.password
 			);
-			localStorage.setItem('user', JSON.stringify(authUser));
+
 			navigate('/', { replace: true });
 		} catch (error) {
 			setLoginError(true);

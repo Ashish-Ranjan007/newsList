@@ -13,7 +13,7 @@ const Drawer = ({ extended, setExtended }) => {
 	const [profilePic, setProfliePic] = useState('');
 	const { firestore } = useContext(FirebaseContext);
 	const userEmail = JSON.parse(localStorage.getItem('user')).email;
-
+	console.log(userEmail);
 	useEffect(() => {
 		getProfilePic(userEmail, firestore).then((result) => {
 			setProfliePic(result[0]);
